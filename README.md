@@ -9,7 +9,7 @@ version: '3.7'
 
 services:
   certdumper:
-    image: humenius/traefik-certs-dumper:latest
+    image: ghcr.io/leviscop/pterodactyl-certs-dumper:main
     volumes:
     - ./traefik/acme:/traefik:ro
     - ./output:/output:rw
@@ -24,7 +24,7 @@ version: '3.7'
 
 services:
   certdumper:
-    image: humenius/traefik-certs-dumper:latest
+    image: ghcr.io/leviscop/pterodactyl-certs-dumper:main
     volumes:
     - ./traefik/acme:/traefik:ro
     - ./output:/output:rw
@@ -40,7 +40,7 @@ version: '3.7'
 
 services:
   certdumper:
-    image: humenius/traefik-certs-dumper:latest
+    image: ghcr.io/leviscop/pterodactyl-certs-dumper:main
     command: --restart-containers container1,container2,container3
     volumes:
     - ./traefik/acme:/traefik:ro
@@ -59,7 +59,7 @@ version: '3.7'
 
 services:
   certdumper:
-    image: humenius/traefik-certs-dumper:latest
+    image: ghcr.io/leviscop/pterodactyl-certs-dumper:main
     command: --restart-containers container1,container2,container3
     volumes:
     - ./traefik/acme:/traefik:ro
@@ -82,7 +82,7 @@ version: '3.7'
 
 services:
   certdumper:
-    image: humenius/traefik-certs-dumper:latest
+    image: ghcr.io/leviscop/pterodactyl-certs-dumper:main
     volumes:
     - ./traefik/acme:/traefik:ro
     - ./output:/output:rw
@@ -100,7 +100,7 @@ version: '3.7'
 
 services:
   certdumper:
-    image: humenius/traefik-certs-dumper:latest
+    image: ghcr.io/leviscop/pterodactyl-certs-dumper:main
     volumes:
     - ./traefik/acme:/traefik:ro
     - ./output:/output:rw
@@ -121,7 +121,7 @@ version: '3.7'
 
 services:
   certdumper:
-    image: humenius/traefik-certs-dumper:latest
+    image: ghcr.io/leviscop/pterodactyl-certs-dumper:main
     volumes:
     - ./traefik/acme:/traefik:ro
     - ./output:/output:rw
