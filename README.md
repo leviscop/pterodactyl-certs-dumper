@@ -1,47 +1,6 @@
 # traefik-certs-dumper
 
-[![Docker Pulls](https://img.shields.io/docker/pulls/humenius/traefik-certs-dumper?logo=docker&style=flat)](https://hub.docker.com/r/humenius/traefik-certs-dumper)
-[![Docker Image Version (latest semver)](https://img.shields.io/docker/v/humenius/traefik-certs-dumper?sort=semver&style=flat)](https://hub.docker.com/r/humenius/traefik-certs-dumper)
-[![MicroBadger Size (tag)](https://img.shields.io/microbadger/image-size/humenius/traefik-certs-dumper/latest?label=size%20%28latest%29&logo=docker)](https://hub.docker.com/r/humenius/traefik-certs-dumper)
-![MicroBadger Size (tag)](https://img.shields.io/microbadger/image-size/humenius/traefik-certs-dumper/alpine?label=size%20%28alpine%29&logo=docker)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/humenius/traefik-certs-dumper/build-docker-images?label=Docker%20build&logo=github)
-![GitHub Workflow Status (Alpine)](https://img.shields.io/github/workflow/status/humenius/traefik-certs-dumper/build-alpine-images?label=Alpine%20build&logo=github)
-
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/e448ef74f4c9456dae00d75914499990)](https://www.codacy.com/gh/humenius/traefik-certs-dumper/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=humenius/traefik-certs-dumper&amp;utm_campaign=Badge_Grade)
-
 Dumps Let's Encrypt certificates of a specified domain to `.pem` and `.key` files which Traefik stores in `acme.json`.
-
-This image uses:
-- a bash script that derivates from [mailu/traefik-certdumper](https://hub.docker.com/r/mailu/traefik-certdumper)
-- [ldez's traefik-certs-dumper](https://github.com/ldez/traefik-certs-dumper)
-
-Special thanks to them!
-
-**IMPORTANT**: It's supposed to work with Traefik **v2** or higher! If you want to use this certificate dumper with **v1**, you can simply change the image to [mailu/traefik-certdumper](https://hub.docker.com/r/mailu/traefik-certdumper).
-
-## Table Of Content
-* [Usage](#usage)
-  + [Image choice](#image-choice)
-  + [Basic setup](#basic-setup)
-  + [Dump all certificates](#dump-all-certificates)
-  + [Automatic container restart](#automatic-container-restart)
-  + [Change ownership of certificate and key files](#change-ownership-of-certificate-and-key-files)
-  + [Extract multiple domains](#extract-multiple-domains)
-  + [Health Check](#health-check)
-  + [Merging private key and public certificate in one .pem](#merging-private-key-and-public-certificate-in-one-pem)
-* [Help!](#help-)
-
-## Usage
-### Image choice
-We ship various flavors of this image - multi-arch, Docker (default) and Alpine. The versioning follows [SemVer](https://semver.org/).
-
-|                     | amd64 (normal)           | arm32v7 | arm64v8 |
-|---------------------|--------------------------|-----|-----|
-| **Docker (normal)** | `latest`, `x.x.x`, `x.x`, `x` | `arm32v7`, `x.x.x-arm32v7`, `x.x-arm32v7`, `x-arm32v7` | `arm64v8`,`x.x.x-arm64v8`, `x.x-arm64v8`, `x-arm64v8` |
-| **Alpine**          | `alpine`, `x.x.x-alpine`, `x.x-alpine`, `x-alpine` | `arm32v7-alpine`, `x.x.x-arm32v7-alpine`, `x.x-arm32v7-alpine`, `x-arm32v7-alpine` | `arm64v8-alpine`,`x.x.x-arm64v8-alpine`, `x.x-arm64v8-alpine`, `x-arm64v8-alpine` |
-
-#### `alpine` notes!
-Please note that when using the `alpine` variant, using the container restart functionality won't work due to missing Docker installation and will be skipped.
 
 ### Basic setup
 Mount your ACME folder into `/traefik` and output folder to `/output`. Here's an example for docker-compose:
@@ -172,5 +131,3 @@ services:
       COMBINED_PEM: my_concatted_file.pem
 ```
 
-## Help!
-If you need help using this image, have suggestions or want to report a problem, feel free to open an issue on GitHub!
