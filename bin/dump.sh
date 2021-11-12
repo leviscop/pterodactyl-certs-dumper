@@ -15,9 +15,9 @@ dump() {
   log "Dumping certificates"
   traefik-certs-dumper file \
     --version v2 \
-    --crt-name "cert" \
+    --crt-name "fullchain" \
     --crt-ext ".pem" \
-    --key-name "key" \
+    --key-name "privkey" \
     --key-ext ".pem" \
     --domain-subdir \
     --dest /tmp/work \
@@ -31,11 +31,11 @@ dump() {
       # Don't extract "private" because it contains Let's Encrypt key
       if [[ "${i}" != "private" ]]; then
         if
-          [[ -f ${workdir}/${i}/cert.pem && -f ${workdir}/${i}/key.pem ]]
+          [[ -f ${workdir}/${i}/fullchain.pem && -f ${workdir}/${i}/privkey.pem ]]
         then
-          if [[ -f ${outputdir}/${i}/cert.pem && -f ${outputdir}/${i}/key.pem ]] && \
-            diff -q "${workdir}/$i/cert.pem" "${outputdir}/$i/cert.pem" >/dev/null && \
-            diff -q "${workdir}/$i/key.pem" "${outputdir}/$i/key.pem" >/dev/null
+          if [[ -f ${outputdir}/${i}/fullchain.pem && -f ${outputdir}/${i}/privkey.pem ]] && \
+            diff -q "${workdir}/$i/fullchain.pem" "${outputdir}/$i/fullchain.pem" >/dev/null && \
+            diff -q "${workdir}/$i/privkey.pem" "${outputdir}/$i/privkey.pem" >/dev/null
           then
             log "Certificate and key for '${i}' still up to date, doing nothing"
           else
@@ -60,11 +60,11 @@ dump() {
     local diff_available=false
     for i in "${DOMAINS[@]}" ; do
       if
-        [[ -f ${workdir}/${i}/cert.pem && -f ${workdir}/${i}/key.pem ]]
+        [[ -f ${workdir}/${i}/fullchain.pem && -f ${workdir}/${i}/privkey.pem ]]
       then
-        if [[ -f ${outputdir}/${i}/cert.pem && -f ${outputdir}/${i}/key.pem ]] && \
-           diff -q "${workdir}/$i/cert.pem" "${outputdir}/$i/cert.pem" >/dev/null && \
-           diff -q "${workdir}/$i/key.pem" "${outputdir}/$i/key.pem" >/dev/null
+        if [[ -f ${outputdir}/${i}/fullchain.pem && -f ${outputdir}/${i}/privkey.pem ]] && \
+           diff -q "${workdir}/$i/fullchain.pem" "${outputdir}/$i/fullchain.pem" >/dev/null && \
+           diff -q "${workdir}/$i/privkey.pem" "${outputdir}/$i/privkey.pem" >/dev/null
         then
           log "Certificate and key for '${i}' still up to date, doing nothing"
         else
@@ -86,11 +86,11 @@ dump() {
     fi
   else
     if
-      [[ -f ${workdir}/${DOMAINS[0]}/cert.pem && -f ${workdir}/${DOMAINS[0]}/key.pem ]]
+      [[ -f ${workdir}/${DOMAINS[0]}/fullchain.pem && -f ${workdir}/${DOMAINS[0]}/privkey.pem ]]
     then
-      if [[ -f ${outputdir}/cert.pem && -f ${outputdir}/key.pem ]] && \
-         diff -q "${workdir}/${DOMAINS[0]}/cert.pem" "${outputdir}/cert.pem" >/dev/null && \
-         diff -q "${workdir}/${DOMAINS[0]}/key.pem" "${outputdir}/key.pem" >/dev/null
+      if [[ -f ${outputdir}/fullchain.pem && -f ${outputdir}/privkey.pem ]] && \
+         diff -q "${workdir}/${DOMAINS[0]}/fullchain.pem" "${outputdir}/fullchain.pem" >/dev/null && \
+         diff -q "${workdir}/${DOMAINS[0]}/privkey.pem" "${outputdir}/privkey.pem" >/dev/null
       then
         log "Certificate and key for '${DOMAINS[0]}' still up to date, doing nothing"
       else
@@ -115,15 +115,15 @@ combine_pem() {
     else
       if [[ "${#DOMAINS[@]}" -gt 1 ]]; then
         for i in "${DOMAINS[@]}" ; do
-          if [[ -f ${outputdir}/${i}/cert.pem && -f ${outputdir}/${i}/key.pem ]]; then
+          if [[ -f ${outputdir}/${i}/fullchain.pem && -f ${outputdir}/${i}/privkey.pem ]]; then
             log "Combining key and cert for domain ${i} to single pem with name ${i}/${COMBINED_PEM}"
-            cat ${outputdir}/"${i}"/cert.pem ${outputdir}/"${i}"/key.pem > ${outputdir}/"${i}"/"${COMBINED_PEM}"
+            cat ${outputdir}/"${i}"/fullchain.pem ${outputdir}/"${i}"/privkey.pem > ${outputdir}/"${i}"/"${COMBINED_PEM}"
           fi
         done
       else
-        if [[ -f ${outputdir}/cert.pem && -f ${outputdir}/key.pem ]]; then
+        if [[ -f ${outputdir}/fullchain.pem && -f ${outputdir}/privkey.pem ]]; then
           log "Combining key and cert to single pem with name ${COMBINED_PEM}"
-          cat ${outputdir}/cert.pem ${outputdir}/key.pem > ${outputdir}/"${COMBINED_PEM}"
+          cat ${outputdir}/fullchain.pem ${outputdir}/privkey.pem > ${outputdir}/"${COMBINED_PEM}"
         fi
       fi
     fi
