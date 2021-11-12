@@ -1,4 +1,4 @@
-# traefik-certs-dumper
+# pterodactyl-certs-dumper
 
 Dumps Let's Encrypt certificates of a specified domain to `.pem` and `.key` files which Traefik stores in `acme.json`.
 
